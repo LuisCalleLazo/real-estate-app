@@ -10,7 +10,7 @@ variables:
     - name: containerTempName
       value: "real_estate_app_container_temp"
     - name: deployPath
-      value: "/var/www/html/real_estate_app"
+      value: "/var/www/real_estate_app"
 
 steps:
     - checkout: self
