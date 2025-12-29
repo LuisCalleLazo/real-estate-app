@@ -21,7 +21,7 @@ steps:
       displayName: "🏗️ Build de imagen Flutter"
       inputs:
           command: build
-          dockerfile: Dockerfile.flutter
+          dockerfile: Dockerfile
           repository: $(imageName)
           tags: latest
 
