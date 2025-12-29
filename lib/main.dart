@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_app/presentation/screens/property_map_screen.dart';
+import 'package:real_estate_app/config/router/app_router.dart';
+import 'package:real_estate_app/config/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Inmo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const PropertyMapScreen(),
+      theme: AppTheme().getLightTheme(),
+      routerConfig: appRouter,
     );
   }
 }
