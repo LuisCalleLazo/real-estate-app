@@ -1,0 +1,46 @@
+trigger:
+    - main
+
+pool:
+    name: Default
+
+variables:
+    - name: imageName
+      value: "flutter-web-realestate"
+    - name: containerTempName
+      value: "real_estate_app_container_temp"
+    - name: deployPath
+      value: "/var/www/html/real_estate_app"
+
+steps:
+    - checkout: self
+      clean: true
+      fetchDepth: 1
+
+    - task: Docker@2
+      displayName: "🏗️ Build de imagen Flutter"
+      inputs:
+          command: build
+          dockerfile: Dockerfile.flutter
+          repository: $(imageName)
+          tags: latest
+
+    - script: |
+          echo "🗑️ Eliminando carpeta anterior..."
+          sudo rm -rf $(deployPath) || true
+
+          echo "📦 Creando contenedor temporal..."
+          container_id=$(docker create $(imageName):latest)
+
+          echo "📤 Copiando archivos del contenedor al servidor..."
+          docker cp $container_id:/app/build/web $(deployPath)
+
+          echo "🧹 Limpiando contenedor temporal..."
+          docker rm $container_id
+
+          echo "🔐 Ajustando permisos para nginx..."
+          sudo chown -R www-data:www-data $(deployPath)
+          sudo chmod -R 755 $(deployPath)
+
+          echo "✅ Deploy completado en $(deployPath)"
+      displayName: "🚀 Deploy a Nginx en el host"
