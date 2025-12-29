@@ -17,6 +17,15 @@ steps:
       clean: true
       fetchDepth: 1
 
+    - task: Bash@3
+      displayName: "🔐 Generar archivo .env desde variables secretas"
+      inputs:
+        targetType: inline
+        script: |
+          echo "⚙️ Creando archivo .env con variables de Azure DevOps..."
+          echo "API_AUTH=$(API_AUTH)" > .env
+          echo "✅ Archivo .env generado exitosamente"
+          
     - task: Docker@2
       displayName: "🏗️ Build de imagen Flutter"
       inputs:
