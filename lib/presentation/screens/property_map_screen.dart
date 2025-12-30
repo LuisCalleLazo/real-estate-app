@@ -9,6 +9,8 @@ import 'package:real_estate_app/presentation/screens/property_detail_screen.dart
 // import '../models/property.dart';
 
 class PropertyMapScreen extends StatefulWidget {
+  
+  static const String name = 'property_map_screen';
   const PropertyMapScreen({super.key});
 
   @override
