@@ -21,12 +21,17 @@ class NotificationButton extends StatelessWidget {
             right: 8,
             top: 8,
             child: Container(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.only(top: 3),
               decoration: const BoxDecoration(
                 color: Colors.red,
                 shape: BoxShape.circle,
               ),
-              constraints: const BoxConstraints(minWidth: 10, minHeight: 10),
+              constraints: const BoxConstraints(
+                minWidth: 15,
+                minHeight: 15,
+                maxWidth: 15,
+                maxHeight: 15,
+              ),
               child: Text(
                 count > 9 ? '9+' : '$count',
                 style: const TextStyle(
