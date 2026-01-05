@@ -1,0 +1,1 @@
+enum ServicesInmo { authService, inmoService }
