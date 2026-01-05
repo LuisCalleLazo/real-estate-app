@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
-  static String name = 'home_page';
+  static String name = 'app_home_page';
   const HomePage({super.key});
 
   @override

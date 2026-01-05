@@ -3,34 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Colores principales
-  static const Color primaryBlue = Color(0xFF2563EB); // Blue-600
-  static const Color primaryBlueDark = Color(0xFF1E40AF); // Blue-700
-  static const Color accentBlue = Color(0xFF3B82F6); // Blue-500
-  static const Color lightBlue = Color(0xFFDCE6F5); // Blue-100
+  // Colores principales - Basados en la imagen (Naranja y Negro/Gris)
+  static const Color primaryOrange = Color(0xFFF38118); // Naranja principal
+  static const Color primaryOrangeDark = Color(0xFFD66F0D); // Naranja oscuro
+  static const Color accentOrange = Color(0xFFFF8C42); // Naranja claro
+  static const Color lightOrange = Color(0xFFFFE5D4); // Naranja muy claro
 
-  static const Color backgroundLight = Color(0xFFFAFAFA);
-  static const Color backgroundDark = Color(0xFF0F172A); // Slate-900
+  // Backgrounds
+  static const Color backgroundLight = Color(0xFFFAFAFA); // Gris muy claro
+  static const Color backgroundDark = Color(0xFF1E191E); // Negro de la imagen
   static const Color surfaceLight = Colors.white;
-  static const Color surfaceDark = Color(0xFF1E293B); // Slate-800
+  static const Color surfaceDark = Color(0xFF2C2C2C); // Gris oscuro
 
-  static const Color textPrimary = Color(0xFF0F172A);
-  static const Color textSecondary = Color(0xFF64748B);
-  static const Color textDark = Color(0xFFF8FAFC);
-  static const Color textSecondaryDark = Color(0xFFCBD5E1);
+  // Texto
+  static const Color textPrimary = Color(0xFF1E191E); // Negro
+  static const Color textSecondary = Color(0xFF6B6B6B); // Gris
+  static const Color textDark = Color(0xFFF2F2F2); // Blanco roto
+  static const Color textSecondaryDark = Color(0xFFE5E5E5); // Gris claro
 
-  static const Color success = Color(0xFF10B981); // Green-500
-  static const Color warning = Color(0xFFF59E0B); // Amber-500
-  static const Color error = Color(0xFFEF4444); // Red-500
+  // Estados
+  static const Color success = Color(0xFF10B981); // Verde
+  static const Color warning = Color(0xFFF59E0B); // Amarillo
+  static const Color error = Color(0xFFEF4444); // Rojo
 
+  // ===================== TEMA CLARO =====================
   ThemeData getLightTheme() => ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
 
     colorScheme: ColorScheme.light(
-      primary: primaryBlue,
-      primaryContainer: lightBlue,
-      secondary: accentBlue,
+      primary: primaryOrange,
+      primaryContainer: lightOrange,
+      secondary: accentOrange,
       surface: surfaceLight,
       error: error,
       onPrimary: Colors.white,
@@ -45,7 +49,7 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       elevation: 0,
       centerTitle: false,
-      backgroundColor: Colors.transparent,
+      backgroundColor: surfaceLight,
       foregroundColor: textPrimary,
       titleTextStyle: GoogleFonts.inter(
         fontSize: 20,
@@ -69,7 +73,7 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        backgroundColor: primaryBlue,
+        backgroundColor: primaryOrange,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -80,9 +84,9 @@ class AppTheme {
     // Botones outlined
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: primaryBlue,
+        foregroundColor: primaryOrange,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        side: const BorderSide(color: primaryBlue, width: 2),
+        side: const BorderSide(color: primaryOrange, width: 2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
       ),
@@ -91,7 +95,7 @@ class AppTheme {
     // Text buttons
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: primaryBlue,
+        foregroundColor: primaryOrange,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
       ),
@@ -111,7 +115,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: primaryBlue, width: 2),
+        borderSide: const BorderSide(color: primaryOrange, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -122,13 +126,13 @@ class AppTheme {
     ),
 
     // Iconos
-    iconTheme: const IconThemeData(color: primaryBlue, size: 24),
+    iconTheme: const IconThemeData(color: primaryOrange, size: 24),
 
     // Chips
     chipTheme: ChipThemeData(
-      backgroundColor: lightBlue,
+      backgroundColor: lightOrange,
       labelStyle: GoogleFonts.inter(
-        color: primaryBlueDark,
+        color: primaryOrangeDark,
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
@@ -138,7 +142,7 @@ class AppTheme {
 
     // FloatingActionButton
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: primaryBlue,
+      backgroundColor: primaryOrange,
       foregroundColor: Colors.white,
       elevation: 4,
     ),
@@ -146,7 +150,7 @@ class AppTheme {
     // BottomNavigationBar
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: surfaceLight,
-      selectedItemColor: primaryBlue,
+      selectedItemColor: primaryOrange,
       unselectedItemColor: textSecondary,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
@@ -158,6 +162,24 @@ class AppTheme {
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
+    ),
+
+    // NavigationRail (para desktop)
+    navigationRailTheme: NavigationRailThemeData(
+      backgroundColor: surfaceLight,
+      selectedIconTheme: const IconThemeData(color: primaryOrange, size: 24),
+      unselectedIconTheme: const IconThemeData(color: textSecondary, size: 24),
+      selectedLabelTextStyle: GoogleFonts.inter(
+        color: primaryOrange,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      unselectedLabelTextStyle: GoogleFonts.inter(
+        color: textSecondary,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      indicatorColor: primaryOrange.withValues(alpha: 0.1),
     ),
 
     // Typography
@@ -217,15 +239,15 @@ class AppTheme {
     ),
   );
 
+  // ===================== TEMA OSCURO =====================
   ThemeData getDarkTheme() => ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
 
-    // Colores
     colorScheme: ColorScheme.dark(
-      primary: accentBlue,
-      primaryContainer: primaryBlueDark,
-      secondary: accentBlue,
+      primary: primaryOrange,
+      primaryContainer: primaryOrangeDark,
+      secondary: accentOrange,
       surface: surfaceDark,
       error: error,
       onPrimary: Colors.white,
@@ -240,7 +262,7 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       elevation: 0,
       centerTitle: false,
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundDark,
       foregroundColor: textDark,
       titleTextStyle: GoogleFonts.inter(
         fontSize: 20,
@@ -264,7 +286,7 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        backgroundColor: accentBlue,
+        backgroundColor: primaryOrange,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -275,9 +297,9 @@ class AppTheme {
     // Botones outlined
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: accentBlue,
+        foregroundColor: primaryOrange,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        side: const BorderSide(color: accentBlue, width: 2),
+        side: const BorderSide(color: primaryOrange, width: 2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
       ),
@@ -286,7 +308,7 @@ class AppTheme {
     // Text buttons
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: accentBlue,
+        foregroundColor: primaryOrange,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
       ),
@@ -306,7 +328,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: accentBlue, width: 2),
+        borderSide: const BorderSide(color: primaryOrange, width: 2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -317,11 +339,11 @@ class AppTheme {
     ),
 
     // Iconos
-    iconTheme: const IconThemeData(color: accentBlue, size: 24),
+    iconTheme: const IconThemeData(color: primaryOrange, size: 24),
 
     // Chips
     chipTheme: ChipThemeData(
-      backgroundColor: primaryBlueDark,
+      backgroundColor: primaryOrangeDark,
       labelStyle: GoogleFonts.inter(
         color: Colors.white,
         fontSize: 12,
@@ -333,7 +355,7 @@ class AppTheme {
 
     // FloatingActionButton
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: accentBlue,
+      backgroundColor: primaryOrange,
       foregroundColor: Colors.white,
       elevation: 4,
     ),
@@ -341,7 +363,7 @@ class AppTheme {
     // BottomNavigationBar
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: surfaceDark,
-      selectedItemColor: accentBlue,
+      selectedItemColor: primaryOrange,
       unselectedItemColor: textSecondaryDark,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
@@ -353,6 +375,24 @@ class AppTheme {
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
+    ),
+
+    // NavigationRail (para desktop)
+    navigationRailTheme: NavigationRailThemeData(
+      backgroundColor: backgroundDark,
+      selectedIconTheme: const IconThemeData(color: primaryOrange, size: 24),
+      unselectedIconTheme: IconThemeData(color: textSecondaryDark, size: 24),
+      selectedLabelTextStyle: GoogleFonts.inter(
+        color: primaryOrange,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      unselectedLabelTextStyle: GoogleFonts.inter(
+        color: textSecondaryDark,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      indicatorColor: primaryOrange.withValues(alpha: 0.2),
     ),
 
     // Typography
