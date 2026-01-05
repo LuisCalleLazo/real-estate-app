@@ -1,6 +1,7 @@
 // lib/config/theme/app_theme.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:real_estate_app/config/theme/map_theme.dart';
 
 class AppTheme {
   // Colores principales - Basados en la imagen (Naranja y Negro/Gris)
@@ -237,6 +238,15 @@ class AppTheme {
       thickness: 1,
       space: 1,
     ),
+
+    extensions: const <ThemeExtension<dynamic>>[
+      MapThemeExtension(
+        tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        markerColor: primaryOrange,
+        selectedMarkerColor: primaryOrangeDark,
+        poiColor: Color(0xFFFFD700), // Dorado para POIs
+      ),
+    ],
   );
 
   // ===================== TEMA OSCURO =====================
@@ -450,5 +460,15 @@ class AppTheme {
       thickness: 1,
       space: 1,
     ),
+
+    // Estilos para el mapa
+    extensions: const <ThemeExtension<dynamic>>[
+      MapThemeExtension(
+        tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        markerColor: primaryOrange,
+        selectedMarkerColor: accentOrange,
+        poiColor: Color(0xFFFFD700),
+      ),
+    ],
   );
 }

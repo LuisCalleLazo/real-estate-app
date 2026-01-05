@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:real_estate_app/presentation/widgets/input/search_filter_input.dart';
 
 class PropertyMapScreen extends StatefulWidget {
   const PropertyMapScreen({super.key});
@@ -10,6 +11,8 @@ class PropertyMapScreen extends StatefulWidget {
 class _PropertyMapScreenState extends State<PropertyMapScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Screen de propiedad"));
+    return Column(
+      children: [SearchFilterInput(onSearchTap: () {}, onFilterTap: () {})],
+    );
   }
 }
