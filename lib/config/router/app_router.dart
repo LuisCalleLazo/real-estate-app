@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_app/config/router/auth_routes.dart';
 import 'package:real_estate_app/config/router/home_routes.dart';
+import 'package:real_estate_app/config/router/property_routes.dart';
 import 'package:real_estate_app/presentation/pages/home_page.dart';
 
 final appRouter = GoRouter(
@@ -8,6 +9,7 @@ final appRouter = GoRouter(
   routes: [
     ...authRoutes,
     ...homeRoutes,
+    ...propertyRoutes,
     // ...adminRoutes,
     GoRoute(
       path: '/',

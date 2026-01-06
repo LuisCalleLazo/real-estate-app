@@ -1,10 +1,12 @@
 // lib/presentation/screens/home/search_map_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:real_estate_app/domain/entities/property_marker.dart';
 import 'package:real_estate_app/presentation/provider/theme_notifier.dart';
+import 'package:real_estate_app/presentation/widgets/button/action_button.dart';
 import 'package:real_estate_app/presentation/widgets/input/search_filter_input.dart';
 import 'package:real_estate_app/shared/constants/positions_marker.dart';
 
@@ -297,30 +299,14 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Ver detalles
-                        },
-                        child: const Text('Ver Detalles'),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    IconButton.filled(
-                      onPressed: () {
-                        setState(() {
-                          _selectedProperty = null;
-                        });
-                      },
-                      icon: const Icon(Icons.close),
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.grey.shade200,
-                        foregroundColor: Colors.grey.shade700,
-                      ),
-                    ),
-                  ],
+                Center(
+                  child: ActionButton(
+                    text: "Ver detalles",
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    onPressed: () {
+                      context.go('/property');
+                    },
+                  ),
                 ),
               ],
             ),

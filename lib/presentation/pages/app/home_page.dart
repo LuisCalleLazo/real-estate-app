@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:real_estate_app/presentation/screens/home/init_home_screen.dart';
 import 'package:real_estate_app/presentation/screens/home/profile_screen.dart';
@@ -29,19 +30,24 @@ class _HomePageState extends State<HomePage> {
       label: 'Inicio',
     ),
     NavigationItemData(
-      icon: Icons.location_on_outlined,
-      activeIcon: Icons.location_on,
-      label: 'Propiedades',
+      icon: CupertinoIcons.heart,
+      activeIcon: CupertinoIcons.heart_fill,
+      label: 'Favoritos',
     ),
     NavigationItemData(
-      icon: Icons.search,
-      activeIcon: Icons.search,
-      label: 'Búsqueda',
+      icon: Icons.map_outlined,
+      activeIcon: Icons.map,
+      label: 'Explorar',
     ),
     NavigationItemData(
       icon: Icons.person_outline,
       activeIcon: Icons.person,
       label: 'Perfil',
+    ),
+    NavigationItemData(
+      icon: Icons.add_outlined,
+      activeIcon: Icons.add,
+      label: 'Publicar',
     ),
   ];
 
@@ -52,6 +58,7 @@ class _HomePageState extends State<HomePage> {
       const InitHomeScreen(),
       const PropertyMapScreen(),
       const SearchMapScreen(),
+      const ProfileScreen(),
       const ProfileScreen(),
     ];
   }
