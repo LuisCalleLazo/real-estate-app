@@ -5,12 +5,14 @@ class ImagesCarousel extends StatefulWidget {
   final List<String> images;
   final double height;
   final bool showThumbnails;
+  final bool isFullScreen;
 
   const ImagesCarousel({
     super.key,
     required this.images,
     this.height = 300,
     this.showThumbnails = true,
+    this.isFullScreen = false,
   });
 
   @override
@@ -42,12 +44,11 @@ class _ImagesCarouselState extends State<ImagesCarousel> {
 
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 600;
-    final thumbnailWidth = isMobile ? 56.0 : 66.0; // Ancho + margin
+    final thumbnailWidth = isMobile ? 56.0 : 66.0;
     final containerWidth = isMobile
         ? screenWidth * 0.4
         : (screenWidth > 1200 ? 300 : 200);
 
-    // Calcular la posición central
     final targetOffset =
         (thumbnailWidth * index) - (containerWidth / 2) + (thumbnailWidth / 2);
     final maxScroll = _thumbnailController.position.maxScrollExtent;
@@ -85,16 +86,24 @@ class _ImagesCarouselState extends State<ImagesCarousel> {
     _scrollThumbnailToCenter(index);
   }
 
+  // NAVEGACIÓN A PANTALLA COMPLETA
+  void _openFullScreen(BuildContext context) {
+    if (!widget.isFullScreen) {
+      // Evita abrir otra vez si ya está en pantalla completa
+      context.push('/property/images', extra: widget.images);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 600;
-    final calculatedHeight = isMobile ? screenWidth * 0.75 : widget.height;
+    final calculatedHeight = widget.isFullScreen
+        ? widget.height
+        : (isMobile ? screenWidth * 0.75 : widget.height);
 
     return InkWell(
-      onTap: () {
-        context.go("/home");
-      },
+      onTap: () => _openFullScreen(context), // <-- ACA ESTÁ EL CAMBIO PRINCIPAL
       child: MouseRegion(
         onEnter: (_) => setState(() => _showControls = true),
         onExit: (_) => setState(() => _showControls = false),
@@ -102,7 +111,6 @@ class _ImagesCarouselState extends State<ImagesCarousel> {
           height: calculatedHeight,
           child: Stack(
             children: [
-              // PageView principal
               PageView.builder(
                 controller: _pageController,
                 onPageChanged: _onPageChanged,
@@ -123,8 +131,6 @@ class _ImagesCarouselState extends State<ImagesCarousel> {
                   );
                 },
               ),
-
-              // Gradient overlay
               Positioned.fill(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -142,31 +148,36 @@ class _ImagesCarouselState extends State<ImagesCarousel> {
                 ),
               ),
 
-              // Flechas de navegación
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 200),
-                opacity: isMobile || _showControls ? 1.0 : 0.0,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildNavButton(
-                        icon: Icons.arrow_back_ios_new,
-                        onPressed: _currentPage > 0 ? _previousPage : null,
+              // Reemplaza el AnimatedOpacity actual con este código:
+              Positioned.fill(
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isMobile || _showControls ? 1.0 : 0.0,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? 8 : 16,
+                    ),
+                    child: Align(
+                      alignment: Alignment.center, // Esto centra verticalmente
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildNavButton(
+                            icon: Icons.arrow_back_ios_new,
+                            onPressed: _currentPage > 0 ? _previousPage : null,
+                          ),
+                          _buildNavButton(
+                            icon: Icons.arrow_forward_ios,
+                            onPressed: _currentPage < widget.images.length - 1
+                                ? _nextPage
+                                : null,
+                          ),
+                        ],
                       ),
-                      _buildNavButton(
-                        icon: Icons.arrow_forward_ios,
-                        onPressed: _currentPage < widget.images.length - 1
-                            ? _nextPage
-                            : null,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-
-              // Indicadores de página
               Positioned(
                 bottom: widget.showThumbnails ? (isMobile ? 60 : 80) : 20,
                 left: 0,
@@ -200,8 +211,6 @@ class _ImagesCarouselState extends State<ImagesCarousel> {
                   ),
                 ),
               ),
-
-              // Miniaturas con scroll automático
               if (widget.showThumbnails)
                 Positioned(
                   bottom: isMobile ? 8 : 16,

@@ -39,7 +39,10 @@ class InitHomeScreen extends StatelessWidget {
 
         return Column(
           children: [
-            SearchFilterInput(onSearchTap: () {}, onFilterTap: () {}),
+            SearchFilterInput(
+              onSearchChanged: (value) {},
+              onFiltersChanged: (values) {},
+            ),
 
             // Lista/Grid de propiedades y anuncios
             Expanded(

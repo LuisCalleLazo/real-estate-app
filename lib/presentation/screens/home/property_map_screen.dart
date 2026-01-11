@@ -11,8 +11,8 @@ class PropertyMapScreen extends StatefulWidget {
 class _PropertyMapScreenState extends State<PropertyMapScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [SearchFilterInput(onSearchTap: () {}, onFilterTap: () {})],
+    return Column(children: [
+      ],
     );
   }
 }

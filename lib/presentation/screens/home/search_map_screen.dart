@@ -91,10 +91,8 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
               ),
             ),
             child: SearchFilterInput(
-              onSearchTap: () {
-                // Búsqueda
-              },
-              onFilterTap: () {},
+              onSearchChanged: (value) {},
+              onFiltersChanged: (values) {},
             ),
           ),
         ),
