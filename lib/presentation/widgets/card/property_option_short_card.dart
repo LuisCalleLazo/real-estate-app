@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PropertyOptionShortCard extends StatelessWidget {
-  const PropertyOptionShortCard({super.key});
+  final bool favorite;
+
+  const PropertyOptionShortCard({super.key, required this.favorite});
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +127,7 @@ class PropertyOptionShortCard extends StatelessWidget {
                 );
               },
               errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[200],
-                  child: Icon(
-                    Icons.broken_image,
-                    size: 32,
-                    color: Colors.grey[400],
-                  ),
-                );
+                return SizedBox(child: Icon(Icons.broken_image, size: 32));
               },
             ),
           ),
@@ -150,8 +145,7 @@ class PropertyOptionShortCard extends StatelessWidget {
             ),
             child: IconButton(
               icon: Icon(
-                CupertinoIcons.heart,
-                color: Colors.grey[400],
+                favorite ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
                 size: isCompact ? 18 : 20,
               ),
               onPressed: () {

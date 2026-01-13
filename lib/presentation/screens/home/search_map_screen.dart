@@ -23,6 +23,9 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
   final LatLng _center = LatLng(-16.5000, -68.1193);
 
   PropertyMarker? _selectedProperty;
+  final List<LatLng> polygonPoints = positionsMarker
+      .map((m) => m.position)
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,15 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
               tileBuilder: isDarkMode ? _darkTileBuilder : null,
             ),
 
+            PolygonLayer(
+              polygons: [
+                Polygon(
+                  points: polygonPoints,
+                  borderStrokeWidth: 1,
+                  color: Colors.orangeAccent.withValues(alpha: 0.4),
+                ),
+              ],
+            ),
             MarkerLayer(
               markers: positionsMarker.map((property) {
                 return Marker(

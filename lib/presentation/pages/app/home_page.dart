@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/presentation/screens/home/favorites_screen.dart';
 import 'package:real_estate_app/presentation/screens/home/init_home_screen.dart';
 import 'package:real_estate_app/presentation/screens/home/profile_screen.dart';
-import 'package:real_estate_app/presentation/screens/home/property_map_screen.dart';
+import 'package:real_estate_app/presentation/screens/home/public_property_screen.dart';
 import 'package:real_estate_app/presentation/screens/home/search_map_screen.dart';
 import 'package:real_estate_app/presentation/widgets/layout/desktop_layout.dart';
 import 'package:real_estate_app/presentation/widgets/layout/mobile_layout.dart';
@@ -56,10 +57,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _screens = [
       const InitHomeScreen(),
-      const PropertyMapScreen(),
+      const FavoritesScreen(),
       const SearchMapScreen(),
       const ProfileScreen(),
-      const ProfileScreen(),
+      const PublicPropertyScreen(),
     ];
   }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_app/presentation/widgets/card/commercial_card.dart';
 import 'package:real_estate_app/presentation/widgets/card/property_option_short_card.dart';
-import 'package:real_estate_app/presentation/widgets/input/search_filter_input.dart';
 
-class InitHomeScreen extends StatelessWidget {
-  const InitHomeScreen({super.key});
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +37,6 @@ class InitHomeScreen extends StatelessWidget {
 
         return Column(
           children: [
-            SearchFilterInput(
-              onSearchChanged: (value) {},
-              onFiltersChanged: (values) {},
-            ),
-
-            // Lista/Grid de propiedades y anuncios
             Expanded(
               child: crossAxisCount > 1
                   ? _buildGridView(crossAxisCount, maxCardWidth, items)
@@ -58,37 +50,13 @@ class InitHomeScreen extends StatelessWidget {
 
   List<Widget> _buildMixedItems() {
     return [
-      PropertyOptionShortCard(favorite: false),
-      PropertyOptionShortCard(favorite: false),
-      CommercialCard(
-        imageUrl:
-            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',
-        targetUrl: 'https://example.com/ad1',
-        height: 200,
-      ),
-      PropertyOptionShortCard(favorite: false),
-      PropertyOptionShortCard(favorite: false),
-      PropertyOptionShortCard(favorite: false),
-      CommercialCard(
-        imageUrl:
-            'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800',
-        targetUrl: 'https://example.com/ad2',
-        height: 200,
-      ),
-      PropertyOptionShortCard(favorite: false),
-      PropertyOptionShortCard(favorite: false),
-      PropertyOptionShortCard(favorite: false),
-      CommercialCard(
-        imageUrl:
-            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800',
-        targetUrl: 'https://example.com/ad3',
-        height: 200,
-      ),
-      PropertyOptionShortCard(favorite: false),
+      PropertyOptionShortCard(favorite: true),
+      PropertyOptionShortCard(favorite: true),
+      PropertyOptionShortCard(favorite: true),
+      PropertyOptionShortCard(favorite: true),
     ];
   }
 
-  // Grid para tablets y desktop con ancho máximo controlado
   Widget _buildGridView(
     int crossAxisCount,
     double maxCardWidth,
