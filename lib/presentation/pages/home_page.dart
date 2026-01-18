@@ -137,7 +137,7 @@ class _HeroSection extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    context.go("/map");
+                    context.go("/home");
                   },
                   icon: const Icon(Icons.map),
                   label: const Text('Ver Mapa'),
