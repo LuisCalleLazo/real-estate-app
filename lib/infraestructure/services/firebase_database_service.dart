@@ -5,11 +5,16 @@ extension FirebaseDatabaseCollections on FirebaseDatabaseService {
     String path,
     List<Map<String, dynamic>> initialData,
   ) async {
-    final snapshot = await readData(path);
-    if (!snapshot.exists) {
-      for (var data in initialData) {
-        await database.child(path).push().set(data);
+    try {
+      final snapshot = await readData(path);
+
+      if (!snapshot.exists) {
+        for (var data in initialData) {
+          await database.child(path).push().set(data);
+        }
       }
+    } catch (e) {
+      rethrow;
     }
   }
 

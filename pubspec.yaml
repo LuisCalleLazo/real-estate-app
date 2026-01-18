@@ -59,6 +59,8 @@
         firebase_core: ^4.3.0
         firebase_database: ^12.1.1
         get_it: ^9.2.0
+        image_picker: ^1.2.1
+        http: ^1.6.0
     dev_dependencies:
         flutter_test:
             sdk: flutter

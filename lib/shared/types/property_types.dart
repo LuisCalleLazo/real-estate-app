@@ -1,28 +1,28 @@
-const List<String> propertyPaymentTypes = ['sale', 'rental', 'anticretic'];
+const List<String> propertyPaymentTypes = ['venta', 'alquiler', 'anticrético'];
 
 const List<String> propertyTypes = [
-  'apartment',
-  'house',
-  'commercial space',
-  'terrain',
-  'industrial warehouse',
-  'mixed commercial-industrial space',
+  'departamento',
+  'casa',
+  'local comercial',
+  'terreno',
+  'galpón industrial',
+  'espacio comercial-industrial mixto',
 ];
 
 const List<String> propertyAreaZones = [
-  'downtown',
-  'suburban',
-  'industrial zone',
-  'residential area',
-  'commercial district',
-  'countryside',
+  'centro',
+  'zona suburbana',
+  'zona industrial',
+  'zona residencial',
+  'zona comercial',
+  'campo',
 ];
 
 const List<String> propertyCategoryGroups = [
-  'residential',
-  'commercial',
+  'residencial',
+  'comercial',
   'industrial',
-  'mixed',
-  'land',
-  'special',
+  'mixto',
+  'terreno',
+  'especial',
 ];

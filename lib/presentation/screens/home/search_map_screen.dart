@@ -40,10 +40,16 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
             initialZoom: 13.0,
             minZoom: 10.0,
             maxZoom: 18.0,
-            onTap: (_, __) {
+            onTap: (tapPosition, latLng) {
               setState(() {
                 _selectedProperty = null;
               });
+
+              print(
+                'Latitud: ${latLng.latitude}, Longitud: ${latLng.longitude}',
+              );
+
+              // _handleMapTap(latLng);
             },
           ),
           children: [
