@@ -19,7 +19,7 @@ class CloudinaryService {
 
     final response = await request.send();
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 201) {
       throw Exception('Error al subir imagen a Cloudinary');
     }
 

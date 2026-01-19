@@ -25,33 +25,61 @@ class _PublicPropertyScreenState extends State<PublicPropertyScreen> {
   List<File> _images = [];
   void _addProperty() async {
     _provider = context.read<PropertyProvider>();
+    try {
+      await _provider.addProperty(
+        _inputManager.getController('title_add_property').text,
+        _inputManager.getController('desc_add_property').text,
+        _inputManager.getController('ubication_add_property').text,
+        double.tryParse(
+              _inputManager.getController('price_add_property').text,
+            ) ??
+            0,
+        valueManagerString.getNotifier("property_type_add_property").value ??
+            "",
+        valueManagerString
+                .getNotifier("property_category_add_property")
+                .value ??
+            "",
+        valueManagerString
+                .getNotifier("property_type_pay_add_property")
+                .value ??
+            "",
+        valueManagerString.getNotifier("property_zone_add_property").value ??
+            "",
+        int.tryParse(
+              _inputManager.getController('bedrooms_add_property').text,
+            ) ??
+            0,
+        int.tryParse(
+              _inputManager.getController('bathrooms_add_property').text,
+            ) ??
+            0,
+        int.tryParse(
+              _inputManager.getController('parkingLots_add_property').text,
+            ) ??
+            0,
+        int.tryParse(
+              _inputManager.getController('kitchens_add_property').text,
+            ) ??
+            0,
+        _images,
+      );
 
-    await _provider.addProperty(
-      _inputManager.getController('title_add_property').text,
-      _inputManager.getController('desc_add_property').text,
-      _inputManager.getController('ubication_add_property').text,
-      double.tryParse(_inputManager.getController('price_add_property').text) ??
-          0,
-      valueManagerString.getNotifier("property_type_add_property").value ?? "",
-      valueManagerString.getNotifier("property_category_add_property").value ??
-          "",
-      valueManagerString.getNotifier("property_type_pay_add_property").value ??
-          "",
-      valueManagerString.getNotifier("property_zone_add_property").value ?? "",
-      int.tryParse(_inputManager.getController('bedrooms_add_property').text) ??
-          0,
-      int.tryParse(
-            _inputManager.getController('bathrooms_add_property').text,
-          ) ??
-          0,
-      int.tryParse(
-            _inputManager.getController('parkingLots_add_property').text,
-          ) ??
-          0,
-      int.tryParse(_inputManager.getController('kitchens_add_property').text) ??
-          0,
-      _images,
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Propiedad publicada correctamente"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      // ❌ Mostrar error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error al publicar propiedad: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -154,7 +182,15 @@ class _PublicPropertyScreenState extends State<PublicPropertyScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: ActionButton(text: "Publicar", onPressed: _addProperty),
+          child: Consumer<PropertyProvider>(
+            builder: (context, provider, child) {
+              return ActionButton(
+                text: "Publicar",
+                onPressed: provider.isCreating ? null : _addProperty,
+                isLoading: provider.isCreating,
+              );
+            },
+          ),
         ),
       ],
     );
