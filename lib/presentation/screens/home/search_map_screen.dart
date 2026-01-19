@@ -1,13 +1,13 @@
 // lib/presentation/screens/home/search_map_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:real_estate_app/domain/entities/property_marker.dart';
 import 'package:real_estate_app/presentation/provider/theme_notifier.dart';
-import 'package:real_estate_app/presentation/widgets/button/action_button.dart';
 import 'package:real_estate_app/presentation/widgets/input/search_filter_input.dart';
+import 'package:real_estate_app/presentation/widgets/marker/property_item_marker.dart';
+import 'package:real_estate_app/presentation/widgets/panel/property_panel.dart';
 import 'package:real_estate_app/shared/constants/positions_marker.dart';
 
 class SearchMapScreen extends StatefulWidget {
@@ -23,9 +23,6 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
   final LatLng _center = LatLng(-16.5000, -68.1193);
 
   PropertyMarker? _selectedProperty;
-  final List<LatLng> polygonPoints = positionsMarker
-      .map((m) => m.position)
-      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -62,34 +59,97 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
             PolygonLayer(
               polygons: [
                 Polygon(
-                  points: polygonPoints,
-                  borderStrokeWidth: 1,
-                  color: Colors.orangeAccent.withValues(alpha: 0.4),
+                  points: zone1Markers,
+                  color: Colors.orange.withValues(alpha: 0.3),
+                ),
+                Polygon(
+                  points: zone2Markers,
+                  color: Colors.red.withValues(alpha: 0.3),
+                ),
+                Polygon(
+                  points: zone3Markers,
+                  color: Colors.yellow.withValues(alpha: 0.3),
                 ),
               ],
             ),
             MarkerLayer(
-              markers: positionsMarker.map((property) {
-                return Marker(
-                  point: property.position,
-                  width: 80,
-                  height: 80,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedProperty = property;
-                      });
-                      _mapController.move(property.position, 15);
-                    },
-                    child: _buildPropertyMarker(property, isDarkMode),
+              markers: [
+                ...positionsMarker.map((property) {
+                  return Marker(
+                    point: property.position,
+                    width: 80,
+                    height: 80,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedProperty = property;
+                        });
+                        _mapController.move(property.position, 15);
+                      },
+                      child: PropertyItemMarker(
+                        property: property,
+                        isDarkMode: isDarkMode,
+                        selectedProperty: _selectedProperty ?? property,
+                      ),
+                    ),
+                  );
+                }),
+                Marker(
+                  point: getPolygonCenter(zone1Markers),
+                  width: 100,
+                  height: 40,
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 2,
+                      ),
+                      child: const Text(
+                        'Sopocachi',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                );
-              }).toList(),
+                ),
+                Marker(
+                  point: getPolygonCenter(zone2Markers),
+                  width: 100,
+                  height: 40,
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 2,
+                      ),
+                      child: const Text(
+                        'San Pedro',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Marker(
+                  point: getPolygonCenter(zone3Markers),
+                  width: 100,
+                  height: 40,
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 2,
+                      ),
+                      child: const Text(
+                        'Miraflores',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
 
-        // Búsqueda y filtros en la parte superior
         Positioned(
           top: 0,
           left: 0,
@@ -120,24 +180,34 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: _buildPropertyPanel(_selectedProperty!),
+            child: PropertyPanel(property: _selectedProperty!),
           ),
 
         Positioned(
-          right: 16,
-          top: 200,
+          left: 16,
+          top: 170,
           child: FloatingActionButton.small(
-            heroTag: 'location',
+            heroTag: 'calculate',
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             foregroundColor: Theme.of(context).iconTheme.color,
             onPressed: () {
-              _mapController.move(_center, 13);
+              // wedj
             },
-            child: const Icon(Icons.my_location),
+            child: const Icon(Icons.calculate),
           ),
         ),
       ],
     );
+  }
+
+  LatLng getPolygonCenter(List<LatLng> points) {
+    double latSum = 0;
+    double lngSum = 0;
+    for (var point in points) {
+      latSum += point.latitude;
+      lngSum += point.longitude;
+    }
+    return LatLng(latSum / points.length, lngSum / points.length);
   }
 
   String _getTileUrl(bool isDarkMode) {
@@ -159,176 +229,6 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
         BlendMode.overlay,
       ),
       child: tileWidget,
-    );
-  }
-
-  Widget _buildPropertyMarker(PropertyMarker property, bool isDarkMode) {
-    final isSelected = _selectedProperty?.id == property.id;
-
-    if (property.type == MarkerType.poi) {
-      // Marcador para puntos de interés (escuelas, etc)
-      return Icon(
-        Icons.place,
-        color: Colors.amber,
-        size: isSelected ? 40 : 32,
-        shadows: const [
-          Shadow(color: Colors.black38, blurRadius: 4, offset: Offset(0, 2)),
-        ],
-      );
-    }
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Precio
-        if (property.price != null)
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? const Color(0xFFF38118)
-                  : isDarkMode
-                  ? const Color(0xFF2C2C2C)
-                  : Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color(0xFFF38118),
-                width: isSelected ? 2 : 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: isDarkMode ? 0.5 : 0.2),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Text(
-              property.price!,
-              style: TextStyle(
-                color: isSelected ? Colors.white : const Color(0xFFF38118),
-                fontWeight: FontWeight.bold,
-                fontSize: isSelected ? 12 : 11,
-              ),
-            ),
-          ),
-        const SizedBox(height: 4),
-        // Pin
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          child: Icon(
-            Icons.location_on,
-            color: const Color(0xFFF38118),
-            size: isSelected ? 40 : 32,
-            shadows: const [
-              Shadow(
-                color: Colors.black38,
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPropertyPanel(PropertyMarker property) {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Container(
-              height: 120,
-              width: double.infinity,
-              color: Colors.grey.shade300,
-              child: Image.network(
-                'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800',
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Center(
-                    child: Icon(
-                      Icons.home,
-                      size: 48,
-                      color: Colors.grey.shade400,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-
-          // Info
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        property.title,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    if (property.price != null)
-                      Text(
-                        property.price!,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: const Color(0xFFF38118),
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const Icon(Icons.bed, size: 16),
-                    const SizedBox(width: 4),
-                    const Text('3'),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.bathroom, size: 16),
-                    const SizedBox(width: 4),
-                    const Text('2'),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.square_foot, size: 16),
-                    const SizedBox(width: 4),
-                    const Text('180m²'),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Center(
-                  child: ActionButton(
-                    text: "Ver detalles",
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    onPressed: () {
-                      context.go('/property');
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -239,6 +239,40 @@ class AppTheme {
       space: 1,
     ),
 
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: GoogleFonts.sairaStencilOne(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: textPrimary,
+        letterSpacing: 0.5,
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: WidgetStateProperty.all(surfaceLight),
+        elevation: WidgetStateProperty.all(4),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: Colors.grey.shade200),
+          ),
+        ),
+      ),
+    ),
+    popupMenuTheme: PopupMenuThemeData(
+      color: surfaceLight,
+
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey.shade200),
+      ),
+      textStyle: GoogleFonts.sairaStencilOne(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: textPrimary,
+        letterSpacing: 0.5,
+      ),
+    ),
+
     extensions: const <ThemeExtension<dynamic>>[
       MapThemeExtension(
         tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -461,6 +495,38 @@ class AppTheme {
       space: 1,
     ),
 
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: GoogleFonts.sairaStencilOne(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: textDark,
+        letterSpacing: 0.5,
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: WidgetStateProperty.all(surfaceDark),
+        elevation: WidgetStateProperty.all(8),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+          ),
+        ),
+      ),
+    ),
+    popupMenuTheme: PopupMenuThemeData(
+      color: AppTheme.surfaceDark,
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+      ),
+      textStyle: GoogleFonts.sairaStencilOne(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.textDark,
+        letterSpacing: 0.5,
+      ),
+    ),
     // Estilos para el mapa
     extensions: const <ThemeExtension<dynamic>>[
       MapThemeExtension(
