@@ -1,14 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class PropertyOptionShortCard extends StatelessWidget {
   final bool favorite;
+  final String title;
+  final String description;
+  final double price;
+  final String imageUrl;
+  final String location;
+  final int bedrooms;
+  final int bathrooms;
+  final int parkingLots;
+  final int kitchens;
 
-  const PropertyOptionShortCard({super.key, required this.favorite});
+  const PropertyOptionShortCard({
+    super.key,
+    required this.favorite,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
+    required this.location,
+    required this.bedrooms,
+    required this.bathrooms,
+    required this.parkingLots,
+    required this.kitchens,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final formatter = NumberFormat('#,##0.00', 'en_US');
     return LayoutBuilder(
       builder: (context, constraints) {
         // Determinar si estamos en modo compacto
@@ -39,7 +62,7 @@ class PropertyOptionShortCard extends StatelessWidget {
                     height: 40,
                     child: Center(
                       child: Text(
-                        "Casa en venta",
+                        title,
                         style: TextStyle(
                           fontSize: isCompact ? 16 : 18,
                           fontWeight: FontWeight.bold,
@@ -61,7 +84,7 @@ class PropertyOptionShortCard extends StatelessWidget {
                       // Descripción
                       Center(
                         child: Text(
-                          "Casa a estrenar, ubicada cerca al hipermar.",
+                          description,
                           style: TextStyle(
                             fontSize: isCompact ? 11 : 12,
                             height: 1.3,
@@ -77,7 +100,7 @@ class PropertyOptionShortCard extends StatelessWidget {
                       // Precio
                       Center(
                         child: Text(
-                          "250,000 BS",
+                          '${formatter.format(price)} BS',
                           style: TextStyle(
                             fontSize: isCompact ? 16 : 18,
                             fontWeight: FontWeight.bold,
@@ -108,7 +131,7 @@ class PropertyOptionShortCard extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 1.4,
             child: Image.network(
-              "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
+              imageUrl,
               fit: BoxFit.cover,
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
@@ -168,22 +191,22 @@ class PropertyOptionShortCard extends StatelessWidget {
         children: [
           _buildFeatureItem(
             icon: Icons.meeting_room_outlined,
-            label: "2",
+            label: bedrooms.toString(),
             isCompact: isCompact,
           ),
           _buildFeatureItem(
             icon: Icons.bathtub_outlined,
-            label: "5",
+            label: bathrooms.toString(),
             isCompact: isCompact,
           ),
           _buildFeatureItem(
             icon: Icons.bedroom_parent_outlined,
-            label: "2",
+            label: kitchens.toString(),
             isCompact: isCompact,
           ),
           _buildFeatureItem(
             icon: Icons.directions_car_outlined,
-            label: "2",
+            label: parkingLots.toString(),
             isCompact: isCompact,
           ),
         ],

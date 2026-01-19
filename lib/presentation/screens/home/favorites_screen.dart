@@ -50,10 +50,10 @@ class FavoritesScreen extends StatelessWidget {
 
   List<Widget> _buildMixedItems() {
     return [
-      PropertyOptionShortCard(favorite: true),
-      PropertyOptionShortCard(favorite: true),
-      PropertyOptionShortCard(favorite: true),
-      PropertyOptionShortCard(favorite: true),
+      // PropertyOptionShortCard(favorite: true),
+      // PropertyOptionShortCard(favorite: true),
+      // PropertyOptionShortCard(favorite: true),
+      // PropertyOptionShortCard(favorite: true),
     ];
   }
 

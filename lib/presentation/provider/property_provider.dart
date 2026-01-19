@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/domain/entities/property_entity.dart';
 import 'package:real_estate_app/infraestructure/database/firebase_database.dart';
 import 'package:real_estate_app/infraestructure/di/get_it.dart';
 import 'package:real_estate_app/infraestructure/model/property_model.dart';
@@ -8,8 +9,13 @@ import 'package:real_estate_app/infraestructure/services/cloudinary_service.dart
 
 class PropertyProvider extends ChangeNotifier {
   bool _isCreating = false;
+  bool _isLoadingData = false;
+
+  List<PropertyEntity> _properties = [];
 
   bool get isCreating => _isCreating;
+  bool get isLoadingData => _isLoadingData;
+  List<PropertyEntity> get properties => _properties;
 
   Future<void> addProperty(
     String title,
@@ -37,7 +43,7 @@ class PropertyProvider extends ChangeNotifier {
 
       // 2️⃣ Crear modelo
       final property = PropertyModel(
-        id: DateTime.now().millisecondsSinceEpoch,
+        id : (DateTime.now().millisecondsSinceEpoch).toString(),
         title: title,
         description: description,
         ubication: location,
@@ -63,6 +69,33 @@ class PropertyProvider extends ChangeNotifier {
     } finally {
       _setCreating(false);
     }
+  }
+
+  Future<void> loadData() async {
+    _isLoadingData = true;
+    notifyListeners();
+
+    final firebase = getIt<FirebaseDatabaseService>();
+    final snapshot = await firebase.readData("properties");
+
+    final List<PropertyEntity> loaded = [];
+
+    if (snapshot.exists && snapshot.value != null) {
+      final map = snapshot.value as Map<dynamic, dynamic>;
+
+      map.forEach((key, value) {
+        loaded.add(
+          PropertyModel.fromFirebase(
+            key.toString(),
+            Map<dynamic, dynamic>.from(value),
+          ),
+        );
+      });
+    }
+
+    _properties = loaded;
+    _isLoadingData = false;
+    notifyListeners();
   }
 
   void _setCreating(bool value) {

@@ -32,7 +32,6 @@ class InitDatabase {
     // Colección de propiedades inicial
     final initialProperties = [
       {
-        'id': DateTime.now().millisecondsSinceEpoch,
         'title': 'Departamento en el centro',
         'description': 'Muy buena ubicación',
         'ubication': 'Centro',
