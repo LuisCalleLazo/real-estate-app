@@ -1,5 +1,5 @@
 class PropertyEntity {
-  final int id;
+  final String id;
   final String title;
   final String description;
   final String ubication;
@@ -8,7 +8,8 @@ class PropertyEntity {
   final String longitude;
   final double price;
   final String typePay; // Payment type: "sale", "rental", "anticretic"
-  final String type; // Property type: "apartment", "house", "commercial space", "terrain"
+  final String
+  type; // Property type: "apartment", "house", "commercial space", "terrain"
   // "industrial warehouse", "mixed commercial-industrial space"
   final String area; // Area/Zone: "downtown", "suburban", "industrial zone",
   // "residential area", "commercial district", "countryside"

@@ -1,12 +1,12 @@
 import 'package:latlong2/latlong.dart';
 
-enum MarkerType { property, poi }
+enum MarkerType { home, departament, terrain, office, bank, store }
 
 class PropertyMarker {
   final String id;
   final String title;
   final LatLng position;
-  final String? price;
+  final double? price;
   final MarkerType type;
 
   PropertyMarker({
@@ -14,6 +14,6 @@ class PropertyMarker {
     required this.title,
     required this.position,
     this.price,
-    this.type = MarkerType.property,
+    this.type = MarkerType.home,
   });
 }

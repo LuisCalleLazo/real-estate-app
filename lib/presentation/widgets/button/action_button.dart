@@ -10,6 +10,8 @@ class ActionButton extends StatelessWidget {
   final double? maxWidth;
   final double? minHeight;
   final double? maxHeight;
+  final bool
+  isLoading; // nota: corregí la ortografía a isLoading sería más estándar
   const ActionButton({
     super.key,
     required this.text,
@@ -21,6 +23,7 @@ class ActionButton extends StatelessWidget {
     this.maxWidth = 350.0,
     this.minHeight = 20.0,
     this.maxHeight = 50.0,
+    this.isLoading = false,
   });
 
   @override
@@ -35,28 +38,35 @@ class ActionButton extends StatelessWidget {
         ),
         child: ElevatedButton(
           style: ButtonStyle(
-            // backgroundColor: WidgetStatePropertyAll(color),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
           ),
-          onPressed: onPressed,
+          onPressed: isLoading
+              ? null
+              : onPressed, // deshabilitado si está cargando
           child: Container(
             width: width,
             alignment: Alignment.center,
             height: heigth,
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: fontSize,
-                fontFamily: "",
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
           ),
         ),
       ),

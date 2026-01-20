@@ -50,10 +50,18 @@ class FavoritesScreen extends StatelessWidget {
 
   List<Widget> _buildMixedItems() {
     return [
-      PropertyOptionShortCard(favorite: true),
-      PropertyOptionShortCard(favorite: true),
-      PropertyOptionShortCard(favorite: true),
-      PropertyOptionShortCard(favorite: true),
+      PropertyOptionShortCard(
+        favorite: true,
+        title: 'Casa san pedro',
+        description: 'Casa ubicando en el centro de La Paz',
+        price: 3000,
+        imageUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',
+        location: '',
+        bedrooms: 1,
+        bathrooms: 2,
+        parkingLots: 3,
+        kitchens: 1,
+      ),
     ];
   }
 

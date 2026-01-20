@@ -22,31 +22,30 @@ class PropertyModel extends PropertyEntity {
     required super.photos,
   });
 
-  factory PropertyModel.fromJson(Map<String, dynamic> json) {
+  factory PropertyModel.fromFirebase(String id, Map<dynamic, dynamic> json) {
     return PropertyModel(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      ubication: json['ubication'] as String,
-      isFavorite: json['isFavorite'] as bool,
-      latitude: json['latitude'] as String,
-      longitude: json['longitude'] as String,
-      price: (json['price'] as num).toDouble(),
-      typePay: json['typePay'] as String,
-      type: json['type'] as String,
-      area: json['area'] as String,
-      group: json['group'] as String,
-      bathrooms: json['bathrooms'] as int,
-      parkingLots: json['parkingLots'] as int,
-      kitchens: json['kitchens'] as int,
-      bedrooms: json['bedrooms'] as int,
-      photos: List<String>.from(json['photos'] ?? []),
+      id: id,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      ubication: json['ubication'] ?? '',
+      isFavorite: json['isFavorite'] ?? false,
+      latitude: json['latitude'] ?? '',
+      longitude: json['longitude'] ?? '',
+      price: (json['price'] ?? 0).toDouble(),
+      typePay: json['typePay'] ?? '',
+      type: json['type'] ?? '',
+      area: json['area'] ?? '',
+      group: json['group'] ?? '',
+      bathrooms: json['bathrooms'] ?? 0,
+      parkingLots: json['parkingLots'] ?? 0,
+      kitchens: json['kitchens'] ?? 0,
+      bedrooms: json['bedrooms'] ?? 0,
+      photos: json['photos'] != null ? List<String>.from(json['photos']) : [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'title': title,
       'description': description,
       'ubication': ubication,

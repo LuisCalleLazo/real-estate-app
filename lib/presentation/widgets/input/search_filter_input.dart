@@ -148,6 +148,7 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
@@ -196,10 +197,10 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
 
                   const SizedBox(width: 12),
 
-                  // Botón de filtros
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.circle,
+                      color: isDark ? Colors.black : Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
@@ -248,6 +249,7 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
     required bool isMobile,
   }) {
     final isSelected = _selectedFilters.containsKey(category.id);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return PopupMenuButton<String>(
       onSelected: (value) => _onFilterChanged(category.id, value),
@@ -272,14 +274,7 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          color: isDark ? Colors.black : Colors.white,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
