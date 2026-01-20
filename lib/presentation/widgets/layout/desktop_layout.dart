@@ -37,9 +37,6 @@ class DesktopLayout extends StatelessWidget {
       width: 250,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border(
-          right: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-        ),
       ),
       child: Column(
         children: [
@@ -119,12 +116,12 @@ class DesktopLayout extends StatelessWidget {
     return Container(
       height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 30),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border(
-          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   color: Theme.of(context).scaffoldBackgroundColor,
+      //   border: Border(
+      //     bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+      //   ),
+      // ),
       child: Row(
         children: [
           Text(

@@ -148,6 +148,7 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
@@ -198,7 +199,8 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
 
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                      shape: BoxShape.circle,
+                      color: isDark ? Colors.black : Colors.white,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
@@ -272,7 +274,6 @@ class _SearchFilterInputState extends State<SearchFilterInput> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(),
           color: isDark ? Colors.black : Colors.white,
         ),
         child: Row(

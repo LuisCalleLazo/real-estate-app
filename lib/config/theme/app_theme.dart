@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:real_estate_app/config/theme/map_theme.dart';
 
+
 class AppTheme {
   // Colores principales - Basados en la imagen (Naranja y Negro/Gris)
   static const Color primaryOrange = Color(0xFFF38118); // Naranja principal

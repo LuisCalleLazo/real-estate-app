@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:real_estate_app/domain/entities/property_marker.dart';
 import 'package:real_estate_app/presentation/provider/theme_notifier.dart';
+import 'package:real_estate_app/presentation/widgets/dialog/credit_calculator_dialog.dart';
 import 'package:real_estate_app/presentation/widgets/input/search_filter_input.dart';
 import 'package:real_estate_app/presentation/widgets/marker/property_item_marker.dart';
 import 'package:real_estate_app/presentation/widgets/panel/property_panel.dart';
@@ -187,11 +188,22 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
           left: 16,
           top: 170,
           child: FloatingActionButton.small(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
             heroTag: 'calculate',
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             foregroundColor: Theme.of(context).iconTheme.color,
-            onPressed: () {
-              // wedj
+            onPressed: () async {
+              final result = await showDialog(
+                context: context,
+                builder: (context) => const CreditCalculatorDialog(),
+              );
+
+              if (result != null) {
+                // Aquí puedes usar los datos retornados
+                print('Datos del formulario: $result');
+              }
             },
             child: const Icon(Icons.calculate),
           ),
