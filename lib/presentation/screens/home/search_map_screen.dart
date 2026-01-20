@@ -1,15 +1,18 @@
-// lib/presentation/screens/home/search_map_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:real_estate_app/domain/entities/map_zone_user.dart';
 import 'package:real_estate_app/domain/entities/property_marker.dart';
 import 'package:real_estate_app/presentation/provider/theme_notifier.dart';
+import 'package:real_estate_app/presentation/screens/property/filters_map_property_screen.dart';
 import 'package:real_estate_app/presentation/widgets/dialog/credit_calculator_dialog.dart';
 import 'package:real_estate_app/presentation/widgets/input/search_filter_input.dart';
+import 'package:real_estate_app/presentation/widgets/label/zone_map_label.dart';
 import 'package:real_estate_app/presentation/widgets/marker/property_item_marker.dart';
 import 'package:real_estate_app/presentation/widgets/panel/property_panel.dart';
 import 'package:real_estate_app/shared/constants/positions_marker.dart';
+import 'package:real_estate_app/shared/utils/side_panel.dart';
 
 class SearchMapScreen extends StatefulWidget {
   const SearchMapScreen({super.key});
@@ -42,12 +45,6 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
               setState(() {
                 _selectedProperty = null;
               });
-
-              print(
-                'Latitud: ${latLng.latitude}, Longitud: ${latLng.longitude}',
-              );
-
-              // _handleMapTap(latLng);
             },
           ),
           children: [
@@ -57,29 +54,15 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
               tileBuilder: isDarkMode ? _darkTileBuilder : null,
             ),
 
-            PolygonLayer(
-              polygons: [
-                Polygon(
-                  points: zone1Markers,
-                  color: Colors.orange.withValues(alpha: 0.3),
-                ),
-                Polygon(
-                  points: zone2Markers,
-                  color: Colors.red.withValues(alpha: 0.3),
-                ),
-                Polygon(
-                  points: zone3Markers,
-                  color: Colors.yellow.withValues(alpha: 0.3),
-                ),
-              ],
-            ),
+            PolygonLayer(polygons: buildZonePolygons(zones)),
+
             MarkerLayer(
               markers: [
                 ...positionsMarker.map((property) {
                   return Marker(
                     point: property.position,
-                    width: 80,
-                    height: 80,
+                    width: 36,
+                    height: 36,
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -95,57 +78,8 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
                     ),
                   );
                 }),
-                Marker(
-                  point: getPolygonCenter(zone1Markers),
-                  width: 100,
-                  height: 40,
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 2,
-                      ),
-                      child: const Text(
-                        'Sopocachi',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-                Marker(
-                  point: getPolygonCenter(zone2Markers),
-                  width: 100,
-                  height: 40,
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 2,
-                      ),
-                      child: const Text(
-                        'San Pedro',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-                Marker(
-                  point: getPolygonCenter(zone3Markers),
-                  width: 100,
-                  height: 40,
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 2,
-                      ),
-                      child: const Text(
-                        'Miraflores',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
+
+                ...buildNameZoneMarkers(zones),
               ],
             ),
           ],
@@ -169,7 +103,27 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
                 ],
               ),
             ),
-            child: SearchFilterInput(onSearchChanged: (value) {}),
+            child: SearchFilterInput(
+              onSearchChanged: (value) {},
+              onFiltersChanged: (filters) {},
+              showFilterDialog: () {
+                sidePanel(
+                  context: context,
+                  content: FiltersMapPropertyScreen(
+                    onFiltersChanged: (filters) {
+                      print('Zonas: ${filters['zones']}');
+                      print('Bancos: ${filters['banks']}');
+                      print('Precio mín: ${filters['priceRange']['min']}');
+                      print('Precio máx: ${filters['priceRange']['max']}');
+
+                      // Aplica los filtros a tu mapa
+                      // Por ejemplo, filtra positionsMarker según los criterios
+                    },
+                  ),
+                  label: "Filtros",
+                );
+              },
+            ),
           ),
         ),
 
@@ -199,7 +153,7 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
 
               if (result != null) {
                 // Aquí puedes usar los datos retornados
-                print('Datos del formulario: $result');
+                // print('Datos del formulario: $result');
               }
             },
             child: const Icon(Icons.calculate),
@@ -207,6 +161,28 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
         ),
       ],
     );
+  }
+
+  List<Polygon> buildZonePolygons(List<MapZoneUser> zones) {
+    return zones.map((zone) {
+      return Polygon(
+        points: zone.points,
+        color: zone.color.withValues(alpha: 0.5),
+        borderColor: zone.color,
+        borderStrokeWidth: 1,
+      );
+    }).toList();
+  }
+
+  List<Marker> buildNameZoneMarkers(List<MapZoneUser> zones) {
+    return zones.map((zone) {
+      return Marker(
+        point: getPolygonCenter(zone.points),
+        width: 120,
+        height: 40,
+        child: ZoneMapLabel(name: zone.name),
+      );
+    }).toList();
   }
 
   LatLng getPolygonCenter(List<LatLng> points) {

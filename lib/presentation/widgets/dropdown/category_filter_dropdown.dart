@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_app/shared/utils/select_option.dart';
 
 class CategoryFilter {
   final String id;
   final IconData icon;
   final String label;
-  final List<String> options;
+  final List<SelectOption> options;
 
   CategoryFilter({
     required this.id,
@@ -32,9 +33,9 @@ class CategoryFilterDropdown extends StatefulWidget {
 class _CategoryFilterDropdownState extends State<CategoryFilterDropdown> {
   final Map<String, String> _selectedFilters = {};
 
-  void _onFilterChanged(String categoryId, String value) {
+  void _onFilterChanged(String categoryId, SelectOption value) {
     setState(() {
-      _selectedFilters[categoryId] = value;
+      _selectedFilters[categoryId] = value.label;
     });
 
     if (widget.onFiltersChanged != null) {
@@ -67,18 +68,18 @@ class _CategoryFilterDropdownState extends State<CategoryFilterDropdown> {
     final isSelected = _selectedFilters.containsKey(category.id);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return PopupMenuButton<String>(
+    return PopupMenuButton<SelectOption>(
       onSelected: (value) => _onFilterChanged(category.id, value),
       itemBuilder: (context) => category.options.map((option) {
-        return PopupMenuItem<String>(
+        final isSelected = _selectedFilters[category.id] == option.value;
+        return PopupMenuItem<SelectOption>(
           value: option,
           child: Row(
             children: [
-              if (_selectedFilters[category.id] == option)
+              if (isSelected)
                 const Icon(Icons.check, size: 18, color: Colors.deepOrange),
-              if (_selectedFilters[category.id] == option)
-                const SizedBox(width: 8),
-              Text(option),
+              if (isSelected) const SizedBox(width: 8),
+              Text(option.label),
             ],
           ),
         );
