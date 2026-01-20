@@ -169,10 +169,7 @@ class _SearchMapScreenState extends State<SearchMapScreen> {
                 ],
               ),
             ),
-            child: SearchFilterInput(
-              onSearchChanged: (value) {},
-              onFiltersChanged: (values) {},
-            ),
+            child: SearchFilterInput(onSearchChanged: (value) {}),
           ),
         ),
 

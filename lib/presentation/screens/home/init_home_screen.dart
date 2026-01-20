@@ -27,18 +27,6 @@ class _InitHomeScreenState extends State<InitHomeScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<PropertyProvider>();
 
-    // LOADING
-    if (provider.isLoadingData) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    // EMPTY STATE
-    if (provider.properties.isEmpty) {
-      return const Center(child: Text('No hay propiedades disponibles'));
-    }
-
-    final items = _buildItemsFromData(provider.properties);
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
@@ -66,14 +54,14 @@ class _InitHomeScreenState extends State<InitHomeScreen> {
               onSearchChanged: (value) {
                 // luego aquí filtras desde el provider
               },
-              onFiltersChanged: (values) {
-                // filtros futuros
-              },
             ),
             Expanded(
-              child: crossAxisCount > 1
-                  ? _buildGridView(crossAxisCount, maxCardWidth, items)
-                  : _buildListView(width, items),
+              child: _buildContent(
+                provider,
+                crossAxisCount,
+                maxCardWidth,
+                width,
+              ),
             ),
           ],
         );
@@ -81,7 +69,6 @@ class _InitHomeScreenState extends State<InitHomeScreen> {
     );
   }
 
-  // Construye tarjetas desde la data del provider
   List<Widget> _buildItemsFromData(List<PropertyEntity> properties) {
     return properties.map((property) {
       return PropertyOptionShortCard(
@@ -97,6 +84,27 @@ class _InitHomeScreenState extends State<InitHomeScreen> {
         imageUrl: property.photos[0],
       );
     }).toList();
+  }
+
+  Widget _buildContent(
+    PropertyProvider provider,
+    int crossAxisCount,
+    double maxCardWidth,
+    double width,
+  ) {
+    if (provider.isLoadingData) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (provider.properties.isEmpty) {
+      return const Center(child: Text('No hay propiedades disponibles'));
+    }
+
+    final items = _buildItemsFromData(provider.properties);
+
+    return crossAxisCount > 1
+        ? _buildGridView(crossAxisCount, maxCardWidth, items)
+        : _buildListView(width, items);
   }
 
   Widget _buildGridView(
