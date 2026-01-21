@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
 import 'package:real_estate_app/domain/entities/property_marker.dart';
 
 class PropertyItemMarker extends StatelessWidget {
@@ -17,7 +16,6 @@ class PropertyItemMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSelected = selectedProperty.id == property.id;
-    // final formatter = NumberFormat('#,##0', 'en_US');
 
     final Map<MarkerType, Map<String, dynamic>> markerIcons = {
       MarkerType.home: {'icon': Icons.house, 'color': Colors.amber},
@@ -34,70 +32,32 @@ class PropertyItemMarker extends StatelessWidget {
     final iconData = markerIcons[property.type]!['icon'] as IconData;
     final iconColor = markerIcons[property.type]!['color'] as Color;
 
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      child: Column(
-        // mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Precio (si existe)
-          // if (property.price != null)
-          //   Flexible(
-          //     child: AnimatedContainer(
-          //       duration: const Duration(milliseconds: 200),
-          //       constraints: const BoxConstraints(maxWidth: 75, maxHeight: 28),
-          //       padding: EdgeInsets.symmetric(
-          //         horizontal: isSelected ? 6 : 5,
-          //         vertical: isSelected ? 3 : 2,
-          //       ),
-          //       decoration: BoxDecoration(
-          //         color: isSelected
-          //             ? const Color(0xFFF38118)
-          //             : isDarkMode
-          //             ? const Color(0xFF2C2C2C)
-          //             : Colors.white,
-          //         borderRadius: BorderRadius.circular(10),
-          //         border: Border.all(
-          //           color: const Color(0xFFF38118),
-          //           width: isSelected ? 1.5 : 1,
-          //         ),
-          //       ),
-          //       child: FittedBox(
-          //         fit: BoxFit.scaleDown,
-          //         child: Text(
-          //           '${formatter.format(property.price!)} Bs',
-          //           maxLines: 1,
-          //           overflow: TextOverflow.ellipsis,
-          //           style: TextStyle(
-          //             color: isSelected
-          //                 ? Colors.white
-          //                 : const Color(0xFFF38118),
-          //             fontWeight: FontWeight.bold,
-          //             fontSize: 10,
-          //             height: 1.0,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-
-          // // Espaciado mínimo
-          // if (property.price != null) const SizedBox(height: 2),
-
-          // Ícono
-          Flexible(
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              child: Icon(
-                iconData,
-                color: iconColor,
-                size: isSelected ? 36 : 30,
-              ),
-            ),
-          ),
-        ],
+    return AnimatedScale(
+      scale: isSelected ? 1.4 : 1.0,
+      duration: const Duration(milliseconds: 150),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Colors.orange.withValues(alpha: 0.6),
+                    blurRadius: 18,
+                    spreadRadius: 6,
+                  ),
+                  BoxShadow(
+                    color: Colors.orange.withValues(alpha: 0.9),
+                    blurRadius: 6,
+                    spreadRadius: 2,
+                  ),
+                ]
+              : [],
+        ),
+        child: Center(child: Icon(iconData, color: iconColor, size: 23)),
       ),
     );
   }

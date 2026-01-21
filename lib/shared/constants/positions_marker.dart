@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:real_estate_app/domain/entities/map_zone_user.dart';
 import 'package:real_estate_app/domain/entities/property_marker.dart';
 
 final List<PropertyMarker> positionsMarker = [
@@ -162,4 +164,10 @@ final List<LatLng> zone3Markers = [
   LatLng(-16.51517472996252, -68.12853272124164),
   LatLng(-16.499522735882937, -68.12147869056533),
   LatLng(-16.507426548205473, -68.11161624036038),
+];
+
+final zones = [
+  MapZoneUser(name: 'Sopocachi', points: zone1Markers, color: Colors.orange),
+  MapZoneUser(name: 'San Pedro', points: zone2Markers, color: Colors.red),
+  MapZoneUser(name: 'Miraflores', points: zone3Markers, color: Colors.yellow),
 ];
